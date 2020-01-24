@@ -188,7 +188,7 @@ var subsTitle = document.createElement("h2");
 subsTitle.innerHTML = "Substitutes";
 players.after(subsTitle);
 
-//Defining functions for adding players
+//Defining function for adding players
 
 function addPlayers() {
   for (var i = 0; i < firstEleven + substitutions; i++) {
@@ -229,4 +229,32 @@ function addPlayers() {
   }
 }
 
+//Defining function for getting random number from array
+function getRandomNumber(arr) {
+  return Math.floor(Math.random() * arr.length);
+}
+
+//Defining function for making random substitutions
+
+function makeSubstitution() {
+  var firstSquad = document.querySelectorAll("#players .player");
+  var secondSquad = document.querySelectorAll("#subs .player");
+
+  var firstSquadNumber = getRandomNumber(firstSquad);
+  var secondSquadNumber = getRandomNumber(secondSquad);
+
+  var firstSquadPlayer = firstSquad[firstSquadNumber];
+  var secondSquadPlayer = secondSquad[secondSquadNumber];
+
+  var subPrevious = secondSquadPlayer.previousSibling;
+  var subNext = secondSquadPlayer.nextSibling;
+
+  firstSquadPlayer.after(secondSquadPlayer);
+
+  subPrevious
+    ? subPrevious.after(firstSquadPlayer)
+    : subNext.before(firstSquadPlayer);
+}
+
 addPlayers();
+setInterval(makeSubstitution, 10000);
